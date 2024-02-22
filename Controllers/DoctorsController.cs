@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HospitalApp.Data;
 using HospitalApp.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HospitalApp.Controllers
 {
@@ -44,6 +45,7 @@ namespace HospitalApp.Controllers
         }
 
         // GET: Doctors/Create
+        [Authorize(Roles = "Administrators")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace HospitalApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> Create([Bind("Id,Name,Qualification,Department")] Doctor doctor)
         {
             //if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace HospitalApp.Controllers
         }
 
         // GET: Doctors/Edit/5
+        [Authorize(Roles = "Administrators, Owners")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +90,7 @@ namespace HospitalApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrators, Owners")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Qualification,Department")] Doctor doctor)
         {
             if (id != doctor.Id)
@@ -117,6 +122,7 @@ namespace HospitalApp.Controllers
         }
 
         // GET: Doctors/Delete/5
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +143,7 @@ namespace HospitalApp.Controllers
         // POST: Doctors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var doctor = await _context.Doctor.FindAsync(id);

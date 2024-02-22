@@ -47,7 +47,7 @@ namespace HospitalApp.Controllers
         }
 
         // GET: PatientInfoes/Create
-        [Authorize]
+        [Authorize(Roles = "Administrators")]
         public IActionResult Create()
         {
             ViewData["DoctorId"] = new SelectList(_context.Doctor, "Id", "Name");
@@ -59,7 +59,7 @@ namespace HospitalApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> Create([Bind("Id,Name,Gender,Age,Symptoms,Notes,DoctorId")] PatientInfo patientInfo)
         {
            // if (ModelState.IsValid)
@@ -73,7 +73,7 @@ namespace HospitalApp.Controllers
         }
 
         // GET: PatientInfoes/Edit/5
-        [Authorize]
+        [Authorize(Roles = "Administrators, Owners")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,7 +95,7 @@ namespace HospitalApp.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Administrators, Owners")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Gender,Age,Symptoms,Notes,DoctorId")] PatientInfo patientInfo)
         {
             if (id != patientInfo.Id)
@@ -128,7 +128,7 @@ namespace HospitalApp.Controllers
         }
 
         // GET: PatientInfoes/Delete/5
-        [Authorize]
+         [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,7 +150,7 @@ namespace HospitalApp.Controllers
         // POST: PatientInfoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        [Authorize(Roles = "Administrators")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var patientInfo = await _context.PatientInfo.FindAsync(id);
